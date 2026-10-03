@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FutureXVerse Dashboard</title>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <div class="app-container">
+    
+    <!-- Mobile Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+
+    <!-- Left Sidebar Persistent Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo-container">
+          <img src="logo.png" alt="FutureXVerse Logo" style="height: 24px; width: auto;">
+          <span>FutureXVerse</span>
+        </div>
+      </div>
+
+      <!-- Workspace Switcher Section -->
+      <div class="workspace-switcher-wrapper">
+        <button class="workspace-btn" id="workspace-switcher-btn" onclick="toggleWorkspaceDropdown(event)">
+          <div class="workspace-btn-left">
+            <span class="workspace-indicator" id="workspace-indicator-dot"></span>
+            <span id="current-workspace-name">Acme Corp (Client)</span>
+          </div>
+          <i data-lucide="chevrons-up-down" style="width:16px; height:16px; color:var(--text-muted);"></i>
+        </button>
+        
+        <!-- Dropdown Menu for Switching Workspace (Client <-> Admin) -->
+        <div id="workspace-dropdown" style="display:none; position:absolute; left:16px; top:110px; width:224px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); z-index:200;">
+          <div style="padding:8px; border-bottom:1px solid var(--border-color); font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Select Workspace</div>
+          <div style="padding:4px;">
+            <button onclick="selectWorkspace('client')" style="width:100%; display:flex; align-items:center; gap:8px; padding:8px; border:none; background:none; cursor:pointer; text-align:left; border-radius:var(--radius-md);" class="workspace-dropdown-item">
+              <span class="workspace-indicator"></span>
+              <div>
+                <div style="font-weight:600; font-size:0.8125rem;">Acme Corp</div>
+                <div style="font-size:0.7rem; color:var(--text-secondary);">Client Workspace</div>
+              </div>
+            </button>
+            <button onclick="selectWorkspace('admin')" style="width:100%; display:flex; align-items:center; gap:8px; padding:8px; border:none; background:none; cursor:pointer; text-align:left; border-radius:var(--radius-md);" class="workspace-dropdown-item">
+              <span class="workspace-indicator admin"></span>
+              <div>
+                <div style="font-weight:600; font-size:0.8125rem;">Platform Admin</div>
+                <div style="font-size:0.7rem; color:var(--text-secondary);">Admin Workspace</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Content -->
+      <div class="sidebar-content">
+        <!-- Client Navigation Navigation -->
+        <nav class="sidebar-section" id="nav-section-client">
+          <div class="sidebar-section-title">Menu</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a class="sidebar-link active" onclick="switchView('client', 'dashboard', this)"><i data-lucide="layout-dashboard" style="width:18px;"></i>Dashboard</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'ai-assistant', this)"><i data-lucide="bot" style="width:18px;"></i>AI Assistant</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'conversations', this)"><i data-lucide="message-square-text" style="width:18px;"></i>Conversations<span class="sidebar-badge highlight" id="badge-unread-convs">3</span></a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'leads', this)"><i data-lucide="users" style="width:18px;"></i>Leads</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'automations', this)"><i data-lucide="git-branch" style="width:18px;"></i>Automations</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'appointments', this)"><i data-lucide="calendar" style="width:18px;"></i>Appointments</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'analytics', this)"><i data-lucide="bar-chart-3" style="width:18px;"></i>Analytics</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'knowledge-base', this)"><i data-lucide="database" style="width:18px;"></i>Knowledge Base</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'widget-customization', this)"><i data-lucide="palette" style="width:18px;"></i>Widget Customizer</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'integrations', this)"><i data-lucide="blocks" style="width:18px;"></i>Integrations</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'team', this)"><i data-lucide="user-plus" style="width:18px;"></i>Team</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'billing', this)"><i data-lucide="credit-card" style="width:18px;"></i>Billing</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('client', 'settings', this)"><i data-lucide="settings" style="width:18px;"></i>Settings</a></li>
+          </ul>
+        </nav>
+
+        <!-- Admin Navigation Navigation -->
+        <nav class="sidebar-section" id="nav-section-admin" style="display:none;">
+          <div class="sidebar-section-title">Platform</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'dashboard', this)"><i data-lucide="activity" style="width:18px;"></i>Dashboard</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'clients', this)"><i data-lucide="building-2" style="width:18px;"></i>Clients</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'subscriptions', this)"><i data-lucide="credit-card" style="width:18px;"></i>Subscriptions</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'revenue', this)"><i data-lucide="dollar-sign" style="width:18px;"></i>Revenue</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'ai-usage', this)"><i data-lucide="cpu" style="width:18px;"></i>AI Usage</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'openai-costs', this)"><i data-lucide="wallet" style="width:18px;"></i>OpenAI Costs</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'automations', this)"><i data-lucide="git-fork" style="width:18px;"></i>Automations</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'conversations', this)"><i data-lucide="message-square" style="width:18px;"></i>Conversations</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'support-tickets', this)"><i data-lucide="life-buoy" style="width:18px;"></i>Support Tickets<span class="sidebar-badge highlight">2</span></a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'announcements', this)"><i data-lucide="megaphone" style="width:18px;"></i>Announcements</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'analytics', this)"><i data-lucide="trending-up" style="width:18px;"></i>Analytics</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'api-usage', this)"><i data-lucide="terminal" style="width:18px;"></i>API Usage</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'system-health', this)"><i data-lucide="shield-check" style="width:18px;"></i>System Health</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'users', this)"><i data-lucide="users-round" style="width:18px;"></i>Users</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'roles', this)"><i data-lucide="fingerprint" style="width:18px;"></i>Roles</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'audit-logs', this)"><i data-lucide="history" style="width:18px;"></i>Audit Logs</a></li>
+            <li class="sidebar-nav-item"><a class="sidebar-link" onclick="switchView('admin', 'settings', this)"><i data-lucide="sliders" style="width:18px;"></i>Settings</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- User Profile Footer -->
+      <div class="sidebar-footer">
+        <div class="user-avatar" id="sidebar-user-avatar">JD</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebar-user-name">John Doe</div>
+          <div class="user-role" id="sidebar-user-role">Acme Owner</div>
+        </div>
+        <button class="logout-btn" onclick="triggerLogout()" title="Logout">
+          <i data-lucide="log-out" style="width:18px;"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Frame -->
+    <main class="main-wrapper">
+      
+      <!-- Impersonation Banner for Admins -->
+      <div class="impersonate-banner" id="impersonation-banner" style="display:none;">
+        <div class="impersonate-banner-left">
+          <i data-lucide="alert-triangle" style="width:16px; height:16px;"></i>
+          <span>You are currently impersonating <strong>Acme Corp</strong> (Owner: John Doe)</span>
+        </div>
+        <button class="impersonate-banner-btn" onclick="stopImpersonation()">Exit Impersonation</button>
+      </div>
+
+      <!-- Main Header Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" onclick="toggleMobileSidebar()">
+            <i data-lucide="menu" style="width:20px; height:20px;"></i>
+          </button>
+          <div class="breadcrumb-trail">
+            <span class="breadcrumb-item" id="breadcrumb-workspace">Acme Corp</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current" id="breadcrumb-page">Dashboard</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="global-search-container">
+            <i data-lucide="search" class="global-search-icon" style="width:16px; height:16px;"></i>
+            <input type="text" placeholder="Search..." class="global-search-input" onkeyup="handleGlobalSearch(this.value)">
+          </div>
+          <button class="notification-bell-btn" onclick="toggleNotificationsModal()">
+            <i data-lucide="bell" style="width:18px; height:18px;"></i>
+            <span class="notification-indicator" id="notif-indicator"></span>
+          </button>
+          <button class="view-app-btn" onclick="openDocsHelp()">
+            <i data-lucide="help-circle" style="width:16px; height:16px;"></i>
+            <span>Help Docs</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Main View Frame -->
+      <section class="content-body" id="content-body">
+        
+        <!-- ============================================== -->
+        <!-- CLIENT VIEWS                                   -->
+        <!-- ============================================== -->
+        
+        <!-- View 1: Client Dashboard -->
+        <div class="view-panel active" id="view-client-dashboard">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Welcome back, John</h1>
+              <div class="page-description">Here is your automated business workflow summary for today.</div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-secondary" onclick="openModal('modal-test-ai')"><i data-lucide="eye" style="width:16px;"></i>Test Assistant</button>
+              <button class="btn btn-brand-blue" onclick="openModal('modal-train-ai')"><i data-lucide="sparkles" style="width:16px;"></i>Train AI</button>
+            </div>
+          </div>
+
+          <!-- Quick statistics grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span>AI Assistant Status</span>
+                <i data-lucide="bot" style="width:16px; color:var(--primary-blue);"></i>
+              </div>
+              <div class="stat-card-value">Active</div>
+              <div class="stat-card-footer">
+                <span class="stat-trend positive"><i data-lucide="circle" style="width:10px; fill:var(--color-success); stroke:none;"></i> 99.8% uptime</span>
+                <span>since last deploy</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span>Conversations (24h)</span>
+                <i data-lucide="message-square" style="width:16px; color:var(--text-secondary);"></i>
+              </div>
+              <div class="stat-card-value" id="stat-conversations-count">148</div>
+              <div class="stat-card-footer">
+                <span class="stat-trend positive"><i data-lucide="trending-up" style="width:12px;"></i> +12.3%</span>
+                <span>vs yesterday</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span>New Leads Created</span>
+                <i data-lucide="user-check" style="font-width:16px; color:var(--text-secondary);"></i>
+              </div>
+              <div class="stat-card-value" id="stat-leads-count">34</div>
+              <div class="stat-card-footer">
+                <span class="stat-trend positive"><i data-lucide="trending-up" style="width:12px;"></i> +8.1%</span>
+                <span>vs last week</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span>Conversion Rate</span>
+                <i data-lucide="percent" style="width:16px; color:var(--text-secondary);"></i>
+              </div>
+              <div class="stat-card-value">22.9%</div>
+              <div class="stat-card-footer">
+                <span class="stat-trend positive"><i data-lucide="trending-up" style="width:12px;"></i> +1.5%</span>
+                <span>efficiency lift</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Panel -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <div class="card-title"><i data-lucide="zap" style="width:18px; color:var(--primary-purple);"></i>Quick Actions</div>
+            </div>
+            <div class="card-body">
+              <div class="quick-actions-grid">
+                <div class="quick-action-card" onclick="openModal('modal-train-ai')">
+                  <div class="quick-action-icon"><i data-lucide="brain"></i></div>
+                  <div class="quick-action-label">Train AI</div>
+                </div>
+                <div class="quick-action-card" onclick="openModal('modal-upload-kb')">
+                  <div class="quick-action-icon"><i data-lucide="upload-cloud"></i></div>
+                  <div class="quick-action-label">Upload Documents</div>
+                </div>
+                <div class="quick-action-card" onclick="openModal('modal-test-ai')">
+                  <div class="quick-action-icon"><i data-lucide="play-circle"></i></div>
+                  <div class="quick-action-label">Test AI</div>
+                </div>
+                <div class="quick-action-card" onclick="switchView('client', 'widget-customization')">
+                  <div class="quick-action-icon"><i data-lucide="palette"></i></div>
+                  <div class="quick-action-label">Customize Widget</div>
+                </div>
+                <div class="quick-action-card" onclick="openModal('modal-invite-team')">
+                  <div class="quick-action-icon"><i data-lucide="user-plus-2"></i></div>
+                  <div class="quick-action-label">Invite Member</div>
+                </div>
+                <div class="quick-action-card" onclick="openModal('modal-create-automation')">
+                  <div class="quick-action-icon"><i data-lucide="plus-circle"></i></div>
+                  <div class="quick-action-label">Create Workflow</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="home-section-grid">
+            <!-- Recent Activity Tables Left -->
+            <div>
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Recent Conversations</div>
+                  <button class="btn btn-secondary btn-sm" onclick="switchView('client', 'conversations')">View Inbox</button>
+                </div>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Lead Name</th>
+                        <th>Snippet</th>
+                        <th>Type</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dashboard-recent-convs">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Recent Leads Generated</div>
+                  <button class="btn btn-secondary btn-sm" onclick="switchView('client', 'leads')">Manage CRM</button>
+                </div>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Lead Name</th>
+                        <th>Email</th>
+                        <th>Source</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dashboard-recent-leads">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Side Widgets Right -->
+            <div>
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Automation Activity</div>
+                </div>
+                <div class="card-body" style="padding:16px;">
+                  <div id="dashboard-automation-feed" style="display:flex; flex-direction:column; gap:16px;">
+                    <!-- Filled by JS -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Upcoming Appointments</div>
+                </div>
+                <div class="card-body" style="padding:16px;">
+                  <div id="dashboard-appointments-list" style="display:flex; flex-direction:column; gap:12px;">
+                    <!-- Filled by JS -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 2: Client AI Assistant -->
+        <div class="view-panel" id="view-client-ai-assistant">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">AI Assistant Settings</h1>
+              <div class="page-description">Configure the behavior, prompts, intelligence metrics, and visual interface parameters of your website bot.</div>
+            </div>
+            <button class="btn btn-primary" onclick="saveAssistantSettings()"><i data-lucide="save" style="width:16px;"></i>Save Configuration</button>
+          </div>
+
+          <div class="assistant-config-grid">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Core Behavior Profiles</div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Assistant Name</label>
+                  <input type="text" id="assistant-cfg-name" value="FutureBot" class="input-field" placeholder="e.g. Acme Support Assistant">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">System Prompt (Persona Instruction)</label>
+                  <textarea id="assistant-cfg-prompt" class="input-field" style="height:120px;" placeholder="Define the AI assistant's rules, tone, structure..."></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Default Welcome Message</label>
+                  <input type="text" id="assistant-cfg-welcome" value="Hi there! I am your AI assistant. How can I help you today?" class="input-field">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">LLM Model Tier</label>
+                  <select id="assistant-cfg-model" class="input-field select-field">
+                    <option value="gpt-4o-mini">GPT-4o Mini (Default - Cost Effective)</option>
+                    <option value="gpt-4o">GPT-4o (High Intelligence - Advanced Reasoner)</option>
+                    <option value="claude-3-5-sonnet">Claude 3.5 Sonnet (Nuanced Communication)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-title">Parameters & Settings</div>
+                </div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label class="form-label" style="display:flex; justify-content:space-between;">
+                      <span>Model Temperature</span>
+                      <span id="temp-display-val">0.3</span>
+                    </label>
+                    <input type="range" id="assistant-cfg-temp" min="0" max="1" step="0.1" value="0.3" style="width:100%; accent-color:var(--primary-blue);" oninput="document.getElementById('temp-display-val').innerText = this.value">
+                    <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-muted); margin-top:4px;">
+                      <span>Strict / Factual</span>
+                      <span>Creative / Loose</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Primary Language</label>
+                    <select id="assistant-cfg-lang" class="input-field select-field">
+                      <option value="en">English</option>
+                      <option value="es">Spanish</option>
+                      <option value="fr">French</option>
+                      <option value="de">German</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Deploy Website Target URL</label>
+                    <input type="url" id="assistant-cfg-url" value="https://acmecorp.com" class="input-field">
+                  </div>
+                  <div class="form-group" style="padding-top:8px;">
+                    <label class="switch-control">
+                      <input type="checkbox" id="assistant-cfg-status" class="switch-input" checked>
+                      <span class="switch-slider"></span>
+                      <span style="font-size:0.875rem; font-weight:600;">Status: Active & Deployed</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 3: Client Conversations (Inbox) -->
+        <div class="view-panel" id="view-client-conversations">
+          <div class="inbox-container">
+            <!-- Left Thread List pane -->
+            <div class="inbox-list-pane">
+              <div class="inbox-list-header">
+                <div style="font-weight:700; font-size:1.1rem; color:var(--text-main); margin-bottom:8px;">Conversation Stream</div>
+                <div class="inbox-search-wrap">
+                  <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-muted); width:14px;"></i>
+                  <input type="text" placeholder="Search threads..." class="input-field" style="padding-left:32px; padding-top:6px; padding-bottom:6px;" onkeyup="filterInboxSearch(this.value)">
+                </div>
+              </div>
+              <div class="inbox-filters-scroll" id="inbox-filter-tabs">
+                <span class="inbox-filter-tab active" onclick="filterInbox('all')">All</span>
+                <span class="inbox-filter-tab" onclick="filterInbox('unread')">Unread</span>
+                <span class="inbox-filter-tab" onclick="filterInbox('resolved')">Resolved</span>
+                <span class="inbox-filter-tab" onclick="filterInbox('escalated')">Escalated</span>
+                <span class="inbox-filter-tab" onclick="filterInbox('ai')">AI Only</span>
+                <span class="inbox-filter-tab" onclick="filterInbox('agent')">Live Agent</span>
+              </div>
+              <div class="inbox-stream" id="inbox-threads-list">
+                <!-- Rendered Dynamically -->
+              </div>
+            </div>
+
+            <!-- Right Message Pane -->
+            <div class="inbox-chat-pane" id="chat-pane-placeholder" style="display:flex; align-items:center; justify-content:center; background-color:var(--bg-app); color:var(--text-secondary); text-align:center;">
+              <div>
+                <i data-lucide="message-square" style="width:48px; height:48px; color:var(--text-muted); margin-bottom:12px;"></i>
+                <div style="font-weight:600; font-size:1rem; color:var(--text-main);">Select a thread</div>
+                <div style="font-size:0.8125rem; color:var(--text-muted); margin-top:4px;">Select a conversation to view chat logs and intervene.</div>
+              </div>
+            </div>
+
+            <div class="inbox-chat-pane" id="chat-pane-main" style="display:none;">
+              <div class="chat-pane-header">
+                <div class="chat-header-user">
+                  <div class="user-avatar" id="chat-active-avatar">UI</div>
+                  <div>
+                    <div style="font-weight:600; font-size:0.875rem;" id="chat-active-name">User</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);" id="chat-active-email">user@email.com</div>
+                  </div>
+                </div>
+                <div class="chat-header-actions">
+                  <select id="chat-assignee-select" class="input-field select-field" style="width:120px; font-size:0.75rem; padding:4px 8px; padding-right:24px;" onchange="changeThreadAssignee(this.value)">
+                    <option value="ai">AI Bot</option>
+                    <option value="agent">Live Agent</option>
+                  </select>
+                  <button class="btn btn-secondary btn-sm" onclick="toggleThreadResolved()"><i data-lucide="check" style="width:14px;"></i>Resolve</button>
+                </div>
+              </div>
+              
+              <!-- Chat Logs -->
+              <div class="chat-history" id="chat-active-history">
+                <!-- Message Bubbles -->
+              </div>
+
+              <!-- Input Area -->
+              <div class="chat-input-bar">
+                <div class="chat-input-row">
+                  <textarea id="chat-message-input" class="input-field" style="height:50px; padding:10px;" placeholder="Type your message as Live Agent to intervene..." onkeydown="handleChatInputKey(event)"></textarea>
+                </div>
+                <div class="chat-input-actions">
+                  <span style="font-size:0.7rem; color:var(--text-muted);"><i data-lucide="info" style="width:12px; margin-right:4px; vertical-align:middle;"></i>Live Agent overrides AI response.</span>
+                  <button class="btn btn-brand-blue" onclick="sendLiveAgentMessage()"><i data-lucide="send" style="width:14px;"></i>Send Message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 4: Client Leads CRM -->
+        <div class="view-panel" id="view-client-leads">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Leads CRM Database</h1>
+              <div class="page-description">Review contact leads gathered, qualification statuses, and business details captured.</div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-secondary" onclick="exportLeads()"><i data-lucide="download" style="width:16px;"></i>Export CSV</button>
+              <button class="btn btn-primary" onclick="openModal('modal-add-lead')"><i data-lucide="plus" style="width:16px;"></i>Add Lead</button>
+            </div>
+          </div>
+
+          <!-- Search & Filter Area -->
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-body" style="padding:12px 16px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; align-items:center;">
+              <div style="display:flex; gap:12px; flex:1; min-width:280px;">
+                <div style="position:relative; width:100%; max-width:300px;">
+                  <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-muted); width:16px;"></i>
+                  <input type="text" placeholder="Search leads by name or email..." class="input-field" style="padding-left:36px; padding-top:6px; padding-bottom:6px;" onkeyup="filterLeadsTable(this.value)">
+                </div>
+                <select id="lead-filter-status" class="input-field select-field" style="width:130px; padding-top:6px; padding-bottom:6px;" onchange="filterLeadsByStatus(this.value)">
+                  <option value="all">All Statuses</option>
+                  <option value="new">New</option>
+                  <option value="qualified">Qualified</option>
+                  <option value="hot">Hot</option>
+                  <option value="won">Won</option>
+                  <option value="lost">Lost</option>
+                </select>
+              </div>
+              <div style="font-size:0.8125rem; color:var(--text-secondary);"><span id="leads-filtered-count">6</span> leads found</div>
+            </div>
+          </div>
+
+          <!-- Leads CRM Table -->
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Source</th>
+                  <th>Budget</th>
+                  <th>Status</th>
+                  <th>Date Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="leads-table-rows">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+            
+            <div class="pagination-container">
+              <div>Showing 1 to <span id="leads-page-end">6</span> of <span id="leads-total-count">6</span> results</div>
+              <div class="pagination-buttons">
+                <button class="btn btn-secondary btn-sm" disabled>Previous</button>
+                <button class="btn btn-secondary btn-sm" disabled>Next</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 5: Client Automations -->
+        <div class="view-panel" id="view-client-automations">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Automations & Workflows</h1>
+              <div class="page-description">Automate task triggers and actions upon AI capture events.</div>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('modal-create-automation')"><i data-lucide="plus" style="width:16px;"></i>Create Workflow</button>
+          </div>
+
+          <div class="workflows-list" id="workflows-list-container">
+            <!-- Workflow Cards dynamic -->
+          </div>
+        </div>
+
+        <!-- View 6: Client Appointments -->
+        <div class="view-panel" id="view-client-appointments">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Appointment Bookings</h1>
+              <div class="page-description">Track meetings and demos scheduled directly by the AI assistant.</div>
+            </div>
+            <button class="btn btn-secondary" onclick="toastNotification('Google Calendar sync completed')"><i data-lucide="calendar-days" style="width:16px;"></i>Sync Google Calendar</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Client / Guest</th>
+                  <th>Appointment Topic</th>
+                  <th>Date & Time</th>
+                  <th>Medium / Platform</th>
+                  <th>Booked By</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="appointments-table-rows">
+                <!-- Loaded Dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- View 7: Client Analytics -->
+        <div class="view-panel" id="view-client-analytics">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Performance Analytics</h1>
+              <div class="page-description">Visualize conversational accuracy, lead conversions, response times, and chat streams.</div>
+            </div>
+            <select class="input-field select-field" style="width:140px; padding-top:6px; padding-bottom:6px;">
+              <option>Last 30 Days</option>
+              <option>Last 7 Days</option>
+              <option>Last 12 Months</option>
+            </select>
+          </div>
+
+          <!-- Metric Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Total Conversations</span></div>
+              <div class="stat-card-value">1,482</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Qualified Leads</span></div>
+              <div class="stat-card-value">342</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Avg Response Time</span></div>
+              <div class="stat-card-value">1.4s</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>AI Accuracy Score</span></div>
+              <div class="stat-card-value">97.4%</div>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="charts-grid">
+            <div class="card">
+              <div class="card-header"><div class="card-title">Messages Over Time (Last 7 Days)</div></div>
+              <div class="card-body"><div class="chart-wrapper"><canvas id="chart-messages-time"></canvas></div></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Lead Acquisition Channels</div></div>
+              <div class="card-body"><div class="chart-wrapper"><canvas id="chart-lead-sources"></canvas></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 8: Client Knowledge Base -->
+        <div class="view-panel" id="view-client-knowledge-base">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">AI Knowledge Base</h1>
+              <div class="page-description">Upload context documents, link website URLs, or supply FAQs to feed the AI assistant brain.</div>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('modal-upload-kb')"><i data-lucide="upload" style="width:16px;"></i>Add Source File</button>
+          </div>
+
+          <div class="knowledge-sources-grid" id="kb-sources-container">
+            <!-- Dynamic KB Sources -->
+          </div>
+        </div>
+
+        <!-- View 9: Client Widget Customizer -->
+        <div class="view-panel" id="view-client-widget-customization">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Website Widget Customizer</h1>
+              <div class="page-description">Modify colors, avatar branding, default message, and spatial orientation coordinates. See live updates on the preview pane.</div>
+            </div>
+            <button class="btn btn-primary" onclick="saveWidgetStyles()"><i data-lucide="check" style="width:16px;"></i>Save Widget Style</button>
+          </div>
+
+          <div class="widget-customizer-grid">
+            <!-- Customizer Controls Left -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Customization Properties</div>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label class="form-label">Primary Color Theme</label>
+                  <div style="display:flex; gap:12px; align-items:center;">
+                    <input type="color" id="widget-cfg-color" value="#1E90FF" class="input-field" style="width:60px; height:38px; padding:2px;" oninput="updateLiveWidgetPreview()">
+                    <input type="text" id="widget-cfg-color-hex" value="#1E90FF" class="input-field" style="width:100px;" oninput="syncColorInputHex(this.value)">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Border Radius</label>
+                  <select id="widget-cfg-radius" class="input-field select-field" onchange="updateLiveWidgetPreview()">
+                    <option value="4px">Sleek Angular (4px)</option>
+                    <option value="8px" selected>Balanced Soft (8px)</option>
+                    <option value="16px">Modern Rounded (16px)</option>
+                    <option value="50%">Pill Circle (50%)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Default Welcome Header</label>
+                  <input type="text" id="widget-cfg-welcome" value="How can we help you?" class="input-field" oninput="updateLiveWidgetPreview()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Bot Avatar Initials / Text</label>
+                  <input type="text" id="widget-cfg-avatar" value="KB" class="input-field" maxlength="3" oninput="updateLiveWidgetPreview()">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Screen Position Alignment</label>
+                  <select id="widget-cfg-pos" class="input-field select-field" onchange="updateLiveWidgetPreview()">
+                    <option value="right" selected>Bottom Right</option>
+                    <option value="left">Bottom Left</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preview Pane Right -->
+            <div class="widget-preview-panel">
+              <div class="card-subtitle" style="margin-bottom:12px; font-weight:600; text-transform:uppercase; font-size:0.65rem; letter-spacing:0.05em;">Live Preview Screen</div>
+              
+              <!-- Mock Chat Box -->
+              <div class="mock-widget-container" id="mock-chat-box">
+                <div class="mock-widget-header" id="preview-widget-header" style="background-color:var(--primary-blue);">
+                  <div class="user-avatar" style="width:28px; height:28px; background:rgba(255,255,255,0.2); border:none; color:#FFF; font-size:0.75rem;" id="preview-widget-avatar-logo">KB</div>
+                  <div>
+                    <div style="font-weight:600; font-size:0.8125rem;" id="preview-widget-welcome-title">How can we help you?</div>
+                    <div style="font-size:0.65rem; opacity:0.85; display:flex; align-items:center; gap:4px;"><i data-lucide="circle" style="width:6px; height:6px; fill:#10B981; stroke:none;"></i> AI Assistant Online</div>
+                  </div>
+                </div>
+                <div class="mock-widget-body">
+                  <div class="mock-widget-bubble incoming">
+                    Hello! I'm here to answer any questions about our pricing, solutions, or products.
+                  </div>
+                  <div class="mock-widget-bubble outgoing" id="preview-widget-out-bubble" style="background-color:var(--primary-blue);">
+                    Sure, what are your billing options?
+                  </div>
+                  <div class="mock-widget-bubble incoming">
+                    We offer Monthly and Annual subscriptions. Annual subscriptions get a 20% discount.
+                  </div>
+                </div>
+                <div class="mock-widget-input-bar">
+                  <input type="text" class="mock-widget-input" placeholder="Type a message..." disabled>
+                  <div class="mock-widget-send-btn" id="preview-widget-send-color" style="color:var(--primary-blue);"><i data-lucide="send" style="width:16px;"></i></div>
+                </div>
+              </div>
+
+              <!-- Floating Chat Trigger -->
+              <div class="mock-floating-trigger" id="preview-widget-trigger" style="background-color:var(--primary-blue);">
+                <i data-lucide="message-square" style="width:20px; height:20px;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 10: Client Integrations -->
+        <div class="view-panel" id="view-client-integrations">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Connected Integrations</h1>
+              <div class="page-description">Synchronize lead profiles and booking appointments directly to third party business tooling systems.</div>
+            </div>
+          </div>
+
+          <div class="integrations-grid" id="integrations-cards-container">
+            <!-- Dynamic Integration Cards -->
+          </div>
+        </div>
+
+        <!-- View 11: Client Team -->
+        <div class="view-panel" id="view-client-team">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Team Workspace Members</h1>
+              <div class="page-description">Authorize access permissions, add backup agents, or configure notification listeners.</div>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('modal-invite-team')"><i data-lucide="user-plus" style="width:16px;"></i>Invite Team Member</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Email Address</th>
+                  <th>Workspace Permission Role</th>
+                  <th>Joined Date</th>
+                  <th>Permissions</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="team-table-rows">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- View 12: Client Billing -->
+        <div class="view-panel" id="view-client-billing">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Billing & Usage Allocation</h1>
+              <div class="page-description">Monitor token allocations, modify credit cards, or download recurring platform invoices.</div>
+            </div>
+            <button class="btn btn-brand-blue" onclick="toastNotification('Stripe Billing Portal Opened')"><i data-lucide="external-link" style="width:16px;"></i>Manage Payment Methods</button>
+          </div>
+
+          <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+            <!-- Subscription details -->
+            <div class="card" style="margin-bottom:0;">
+              <div class="card-header"><div class="card-title">Current Plan Profile</div></div>
+              <div class="card-body">
+                <div style="font-weight:700; font-size:1.5rem; color:var(--text-main); margin-bottom:8px;">Growth Plan Tier</div>
+                <div style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:16px;">$49 / month (Billed Monthly)</div>
+                <div style="display:flex; justify-content:space-between; font-size:0.8125rem; margin-bottom:6px;">
+                  <span>Token Usage Counter</span>
+                  <strong>48,200 / 100,000 tokens</strong>
+                </div>
+                <div style="width:100%; height:8px; background-color:var(--bg-active); border-radius:4px; overflow:hidden; margin-bottom:20px;">
+                  <div style="width:48%; height:100%; background:var(--primary-gradient);"></div>
+                </div>
+                <button class="btn btn-primary" style="width:100%;" onclick="toastNotification('Upgrade Portal Redirecting...')">Upgrade Subscription Tier</button>
+              </div>
+            </div>
+
+            <!-- Invoice listing card -->
+            <div class="card" style="margin-bottom:0;">
+              <div class="card-header"><div class="card-title">Recent Invoices</div></div>
+              <div class="card-body" style="padding:0;">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>INV-2026-004</td>
+                      <td>Jul 10, 2026</td>
+                      <td>$49.00</td>
+                      <td><span class="badge badge-won">Paid</span></td>
+                    </tr>
+                    <tr>
+                      <td>INV-2026-003</td>
+                      <td>Jun 10, 2026</td>
+                      <td>$49.00</td>
+                      <td><span class="badge badge-won">Paid</span></td>
+                    </tr>
+                    <tr>
+                      <td>INV-2026-002</td>
+                      <td>May 10, 2026</td>
+                      <td>$49.00</td>
+                      <td><span class="badge badge-won">Paid</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View 13: Client Settings -->
+        <div class="view-panel" id="view-client-settings">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Account Settings</h1>
+              <div class="page-description">Update corporate profile metadata, API access credentials, or safety defaults.</div>
+            </div>
+            <button class="btn btn-primary" onclick="saveGeneralSettings()"><i data-lucide="check" style="width:16px;"></i>Save Changes</button>
+          </div>
+
+          <div class="settings-container">
+            <!-- Sidebar configuration tabs -->
+            <aside class="settings-nav">
+              <button class="settings-nav-btn active" onclick="switchSettingsTab('general', this)">General Info</button>
+              <button class="settings-nav-btn" onclick="switchSettingsTab('branding', this)">Custom Branding</button>
+              <button class="settings-nav-btn" onclick="switchSettingsTab('notifications', this)">Notifications</button>
+              <button class="settings-nav-btn" onclick="switchSettingsTab('security', this)">Access Security</button>
+              <button class="settings-nav-btn" onclick="switchSettingsTab('apikeys', this)">API Credentials</button>
+              <button class="settings-nav-btn" onclick="switchSettingsTab('danger', this)" style="color:var(--color-danger);">Workspace Actions</button>
+            </aside>
+
+            <!-- Setting Content Cards -->
+            <div class="card" style="margin-bottom:0;">
+              <div class="card-body">
+                
+                <!-- Tab Section A: General -->
+                <div class="settings-content-section active" id="settings-tab-general">
+                  <h3 style="font-weight:600; font-size:1.1rem; margin-bottom:12px;">General Workspace Settings</h3>
+                  <div class="form-group">
+                    <label class="form-label">Corporate Company Name</label>
+                    <input type="text" id="settings-company-name" value="Acme Corp" class="input-field">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Corporate Domain Name</label>
+                    <input type="url" id="settings-company-url" value="https://acmecorp.com" class="input-field">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Local Timezone Alignment</label>
+                    <select class="input-field select-field">
+                      <option>Eastern Standard Time (EST)</option>
+                      <option selected>Greenwich Mean Time (GMT)</option>
+                      <option>Pacific Standard Time (PST)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Tab Section B: Branding -->
+                <div class="settings-content-section" id="settings-tab-branding">
+                  <h3 style="font-weight:600; font-size:1.1rem; margin-bottom:12px;">Custom Workspace Branding</h3>
+                  <div class="form-group">
+                    <label class="form-label">Upload Brand Logo</label>
+                    <div style="display:flex; align-items:center; gap:16px;">
+                      <div class="user-avatar" style="width:48px; height:48px; font-size:1.25rem;">AC</div>
+                      <button class="btn btn-secondary" onclick="toastNotification('Logo upload simulation triggered')">Replace Image</button>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Primary Hex Accent Color</label>
+                    <input type="text" value="#1E90FF" class="input-field" style="width:140px;">
+                  </div>
+                </div>
+
+                <!-- Tab Section C: Notifications -->
+                <div class="settings-content-section" id="settings-tab-notifications">
+                  <h3 style="font-weight:600; font-size:1.1rem; margin-bottom:12px;">Notification Dispatch Parameters</h3>
+                  <div class="form-group" style="margin-bottom:12px;">
+                    <label class="switch-control">
+                      <input type="checkbox" checked class="switch-input">
+                      <span class="switch-slider"></span>
+                      <span>Dispatch email alerts on new CRM leads created</span>
+                    </label>
+                  </div>
+                  <div class="form-group" style="margin-bottom:12px;">
+                    <label class="switch-control">
+                      <input type="checkbox" checked class="switch-input">
+                      <span class="switch-slider"></span>
+                      <span>Dispatch warning alert on escalated conversations</span>
+                    </label>
+                  </div>
+                  <div class="form-group" style="margin-bottom:12px;">
+                    <label class="switch-control">
+                      <input type="checkbox" class="switch-input">
+                      <span class="switch-slider"></span>
+                      <span>Dispatch daily recap PDF reports</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Tab Section D: Security -->
+                <div class="settings-content-section" id="settings-tab-security">
+                  <h3 style="font-weight:600; font-size:1.1rem; margin-bottom:12px;">Access Control & Security</h3>
+                  <div class="form-group">
+                    <label class="form-label">Password Authenticator Settings</label>
+                    <button class="btn btn-secondary" onclick="toastNotification('2FA enrollment triggered')">Enable Two-Factor Authentication (2FA)</button>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Domain Whitelist restrictions (CORS rules)</label>
+                    <textarea class="input-field" placeholder="https://*.acmecorp.com, https://acmecorp.com" style="height:60px;"></textarea>
+                  </div>
+                </div>
+
+                <!-- Tab Section E: API Credentials -->
+                <div class="settings-content-section" id="settings-tab-apikeys">
+                  <h3 style="font-weight:600; font-size:1.1rem; margin-bottom:12px;">API Access Credentials</h3>
+                  <div style="font-size:0.8125rem; color:var(--text-secondary); margin-bottom:16px;">Supply these keys to query conversations and leads datasets programmatically.</div>
+                  <div class="form-group">
+                    <label class="form-label">Workspace Secret API Key</label>
+                    <div style="display:flex; gap:10px;">
+                      <input type="password" value="fvx_live_79a29e92b3bce90dcd8372" class="input-field" id="settings-apikey-val" readonly>
+                      <button class="btn btn-secondary" onclick="toggleApiKeyVisibility()"><i data-lucide="eye" style="width:16px;"></i></button>
+                      <button class="btn btn-secondary" onclick="copyApiKey()"><i data-lucide="copy" style="width:16px;"></i></button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Tab Section F: Danger Workspace Actions -->
+                <div class="settings-content-section" id="settings-tab-danger">
+                  <h3 style="font-weight:600; font-size:1.1rem; color:var(--color-danger); margin-bottom:12px;">Workspace Actions</h3>
+                  <div style="font-size:0.8125rem; color:var(--text-secondary); margin-bottom:16px;">This action will permanently delete all records of Acme Corp, including conversations, leads and custom parameters. This cannot be undone.</div>
+                  <button class="btn btn-danger" onclick="deleteWorkspaceConfirmation()">Delete Workspace Instance</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+        <!-- ============================================== -->
+        <!-- ADMIN VIEWS                                    -->
+        <!-- ============================================== -->
+        
+        <!-- View A1: Admin Dashboard -->
+        <div class="view-panel" id="view-admin-dashboard">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Platform Operations Dashboard</h1>
+              <div class="page-description">Overview of FutureXVerse platform metrics, aggregate API usage, MRR growth, and token operations.</div>
+            </div>
+            <button class="btn btn-primary" onclick="toastNotification('Platform metrics synced')"><i data-lucide="refresh-cw" style="width:16px;"></i>Refresh Status</button>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span>Total Active Clients</span>
+                <i data-lucide="building-2" style="width:16px; color:var(--primary-purple);"></i>
+              </div>
+              <div class="stat-card-value">1,248</div>
+              <div class="stat-card-footer">
+                <span class="stat-trend positive"><i data-lucide="trending-up" style="width:12px;"></i> +5.4%</span>
+                <span>monthly client signups</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span>Active Workspaces</span>
+                <i data-lucide="layout-grid" style="width:16px; color:var(--text-secondary);"></i>
+              </div>
+              <div class="stat-card-value">1,402</div>
+              <div class="stat-card-footer">
+                <span class="stat-trend positive"><i data-lucide="trending-up" style="width:12px;"></i> +6.1%</span>
+                <span>vs last month</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span>Monthly Recurring Revenue (MRR)</span>
+                <i data-lucide="dollar-sign" style="width:16px; color:var(--text-secondary);"></i>
+              </div>
+              <div class="stat-card-value">$61,152</div>
+              <div class="stat-card-footer">
+                <span class="stat-trend positive"><i data-lucide="trending-up" style="width:12px;"></i> +14.2%</span>
+                <span>net new subscription lift</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header">
+                <span>OpenAI Tokens Today</span>
+                <i data-lucide="cpu" style="width:16px; color:var(--text-secondary);"></i>
+              </div>
+              <div class="stat-card-value">14.8M</div>
+              <div class="stat-card-footer">
+                <span class="stat-trend negative"><i data-lucide="trending-down" style="width:12px;"></i> -2.1%</span>
+                <span>efficiency optimization</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Admin Metrics Row -->
+          <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom:24px;">
+            <div class="stat-card">
+              <div style="font-size:0.75rem; color:var(--text-secondary);">API Requests (24h)</div>
+              <div style="font-size:1.25rem; font-weight:700; color:var(--text-main); margin-top:4px;">1,482,903</div>
+            </div>
+            <div class="stat-card">
+              <div style="font-size:0.75rem; color:var(--text-secondary);">Open Support Tickets</div>
+              <div style="font-size:1.25rem; font-weight:700; color:var(--text-main); margin-top:4px;">12</div>
+            </div>
+            <div class="stat-card">
+              <div style="font-size:0.75rem; color:var(--text-secondary);">Running Automations</div>
+              <div style="font-size:1.25rem; font-weight:700; color:var(--text-main); margin-top:4px;">8,402</div>
+            </div>
+            <div class="stat-card">
+              <div style="font-size:0.75rem; color:var(--text-secondary);">Platform Uptime Status</div>
+              <div style="font-size:1.25rem; font-weight:700; color:var(--color-success); margin-top:4px;">99.98%</div>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="charts-grid">
+            <div class="card">
+              <div class="card-header"><div class="card-title">MRR Trend ($ USD)</div></div>
+              <div class="card-body"><div class="chart-wrapper"><canvas id="admin-chart-revenue"></canvas></div></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div class="card-title">Token Request Volumes (OpenAI vs Claude)</div></div>
+              <div class="card-body"><div class="chart-wrapper"><canvas id="admin-chart-token-usage"></canvas></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A2: Admin Clients -->
+        <div class="view-panel" id="view-admin-clients">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Client Account Directories</h1>
+              <div class="page-description">Manage platform business tenants. View conversation logs, edit allocations, or impersonate owners to troubleshoot issues.</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-body" style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center; gap:16px;">
+              <div style="position:relative; width:100%; max-width:320px;">
+                <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-muted); width:16px;"></i>
+                <input type="text" placeholder="Search clients by name, industry, owner..." class="input-field" style="padding-left:36px; padding-top:6px; padding-bottom:6px;" onkeyup="filterAdminClients(this.value)">
+              </div>
+              <div style="font-size:0.8125rem; color:var(--text-secondary);"><span id="admin-clients-count">4</span> companies listed</div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Industry</th>
+                  <th>Owner Name</th>
+                  <th>Plan Tier</th>
+                  <th>Account Status</th>
+                  <th>Conversations</th>
+                  <th>Leads Created</th>
+                  <th>Created Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-clients-table-rows">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- View A3: Admin Subscriptions -->
+        <div class="view-panel" id="view-admin-subscriptions">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Client Subscriptions</h1>
+              <div class="page-description">Monitor current pricing tier lists, churn rates, and Stripe webhook payloads.</div>
+            </div>
+          </div>
+          <!-- Shared billing or custom tables -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Recurring Customer Plans</div></div>
+            <div class="card-body" style="padding:0;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Customer Workspace</th>
+                    <th>Plan Tier</th>
+                    <th>Billing Mode</th>
+                    <th>MRR Rate</th>
+                    <th>Next Invoice Date</th>
+                    <th>Stripe Customer ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Acme Corp</td>
+                    <td><span class="badge badge-hot">Growth Plan</span></td>
+                    <td>Monthly</td>
+                    <td>$49.00</td>
+                    <td>Aug 10, 2026</td>
+                    <td><code>cus_N8a8a2j2d</code></td>
+                  </tr>
+                  <tr>
+                    <td>Deluge Logistics</td>
+                    <td><span class="badge badge-won">Enterprise Tier</span></td>
+                    <td>Annual</td>
+                    <td>$499.00</td>
+                    <td>Jan 15, 2027</td>
+                    <td><code>cus_M20s9x2js</code></td>
+                  </tr>
+                  <tr>
+                    <td>Vapor Dynamics</td>
+                    <td><span class="badge badge-new">Free Trial</span></td>
+                    <td>Trial</td>
+                    <td>$0.00</td>
+                    <td>Jul 28, 2026</td>
+                    <td><code>cus_T30s1d9f8</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A4: Admin Revenue -->
+        <div class="view-panel" id="view-admin-revenue">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Platform Revenue Allocation</h1>
+              <div class="page-description">Track net recurring growth, annual performance metrics, and client credit card transaction records.</div>
+            </div>
+          </div>
+
+          <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-bottom:24px;">
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Annual Run Rate (ARR)</span></div>
+              <div class="stat-card-value">$733,824</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Average Revenue Per Account (ARPU)</span></div>
+              <div class="stat-card-value">$48.90</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Customer Lifetime Value (LTV)</span></div>
+              <div class="stat-card-value">$1,850</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Transaction Ledger History</div></div>
+            <div class="card-body" style="padding:0;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Reference ID</th>
+                    <th>Customer Instance</th>
+                    <th>Amount</th>
+                    <th>Event Category</th>
+                    <th>Stripe Gateway</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>tx_7e92a829e</td>
+                    <td>Acme Corp</td>
+                    <td>$49.00</td>
+                    <td><span class="badge badge-won">Payment</span></td>
+                    <td>Successful</td>
+                    <td>Jul 10, 2026, 08:34</td>
+                  </tr>
+                  <tr>
+                    <td>tx_1d92d810a</td>
+                    <td>Alpha Labs</td>
+                    <td>$199.00</td>
+                    <td><span class="badge badge-won">Payment</span></td>
+                    <td>Successful</td>
+                    <td>Jul 08, 2026, 12:12</td>
+                  </tr>
+                  <tr>
+                    <td>tx_9a82e90f2</td>
+                    <td>Nova Spark</td>
+                    <td>-$49.00</td>
+                    <td><span class="badge badge-lost">Refund</span></td>
+                    <td>Processed</td>
+                    <td>Jul 05, 2026, 16:45</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A5: Admin AI Usage -->
+        <div class="view-panel" id="view-admin-ai-usage">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Platform-wide AI Token Usage</h1>
+              <div class="page-description">Audit aggregate LLM API consumption quotas, prompt efficiencies, and execution speeds.</div>
+            </div>
+          </div>
+          <!-- Dynamic Charts or Tables can be listed here -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Top Client Consumers by Token Volume</div></div>
+            <div class="card-body" style="padding:0;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Client Workspace</th>
+                    <th>Model Assigned</th>
+                    <th>Daily Requests</th>
+                    <th>Tokens Consumed</th>
+                    <th>Cost Allocation ($)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Deluge Logistics</td>
+                    <td>GPT-4o</td>
+                    <td>142,000</td>
+                    <td>42.5M tokens</td>
+                    <td>$212.50</td>
+                  </tr>
+                  <tr>
+                    <td>Acme Corp</td>
+                    <td>GPT-4o Mini</td>
+                    <td>48,000</td>
+                    <td>12.8M tokens</td>
+                    <td>$19.20</td>
+                  </tr>
+                  <tr>
+                    <td>Apex Software</td>
+                    <td>Claude 3.5 Sonnet</td>
+                    <td>18,400</td>
+                    <td>9.2M tokens</td>
+                    <td>$73.60</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A6: Admin OpenAI Costs -->
+        <div class="view-panel" id="view-admin-openai-costs">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">OpenAI Operational Expenses</h1>
+              <div class="page-description">Review prompt tokens, completion tokens, cached operations, and net costs.</div>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Prompt Input Costs</span></div>
+              <div class="stat-card-value">$482.50</div>
+              <div class="stat-card-footer"><span>Last 30 Days</span></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Completion Output Costs</span></div>
+              <div class="stat-card-value">$902.10</div>
+              <div class="stat-card-footer"><span>Last 30 Days</span></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Cached Savings ($)</span></div>
+              <div class="stat-card-value">$182.40</div>
+              <div class="stat-card-footer"><span>Cache hit efficiency</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A7: Admin Automations -->
+        <div class="view-panel" id="view-admin-automations">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Global Workflow Actions</h1>
+              <div class="page-description">Oversee execution threads and actions executed via webhooks and integrations.</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Automation Failure Triggers Log</div></div>
+            <div class="card-body" style="padding:0;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Workflow ID</th>
+                    <th>Client Workspace</th>
+                    <th>Trigger Origin</th>
+                    <th>Action Destination</th>
+                    <th>Execution Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>wf_48a82e82</td>
+                    <td>Acme Corp</td>
+                    <td>AI Lead Qualified</td>
+                    <td>Zapier Webhook</td>
+                    <td><span class="badge badge-won">Success</span></td>
+                  </tr>
+                  <tr>
+                    <td>wf_9d28e10b</td>
+                    <td>Deluge Logistics</td>
+                    <td>AI Appointment Set</td>
+                    <td>HubSpot Contacts API</td>
+                    <td><span class="badge badge-lost">Failed (401 Auth)</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A8: Admin Conversations -->
+        <div class="view-panel" id="view-admin-conversations">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Platform-wide Conversation Logs</h1>
+              <div class="page-description">Overview of active chats across the tenant networks. Monitor safety triggers and language quality.</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Live Chat Stream Monitor</div></div>
+            <div class="card-body" style="padding:0;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Workspace</th>
+                    <th>Lead Contact</th>
+                    <th>Current Assignee</th>
+                    <th>Messages Exchanged</th>
+                    <th>Sentiment Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Acme Corp</td>
+                    <td>Sarah Jenkins</td>
+                    <td>AI Assistant</td>
+                    <td>12 messages</td>
+                    <td><span class="badge badge-won">Positive</span></td>
+                  </tr>
+                  <tr>
+                    <td>Deluge Logistics</td>
+                    <td>Robert Chen</td>
+                    <td>Live Agent</td>
+                    <td>18 messages</td>
+                    <td><span class="badge badge-qualified">Neutral</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A9: Admin Support Tickets -->
+        <div class="view-panel" id="view-admin-support-tickets">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Support Tickets</h1>
+              <div class="page-description">Resolve questions and configurations escalated from platform business tenants.</div>
+            </div>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Ticket ID</th>
+                  <th>Client Tenant</th>
+                  <th>Subject Matter</th>
+                  <th>Priority Level</th>
+                  <th>Date Escalated</th>
+                  <th>Resolution Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-tickets-table-rows">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- View A10: Admin Announcements -->
+        <div class="view-panel" id="view-admin-announcements">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">System Announcements</h1>
+              <div class="page-description">Broadcast notices or maintenance alerts directly into active user dashboard navigation panels.</div>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('modal-add-announcement')"><i data-lucide="plus" style="width:16px;"></i>Add Announcement</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Recent Broadcast Alert Messages</div></div>
+            <div class="card-body" style="padding:0;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Header Title</th>
+                    <th>Scope Target</th>
+                    <th>Date Scheduled</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>System Maintenance: July 28th, 02:00 UTC</td>
+                    <td>All workspaces</td>
+                    <td>Jul 20, 2026</td>
+                    <td>Operations team</td>
+                    <td><span class="badge badge-active">Live Active</span></td>
+                  </tr>
+                  <tr>
+                    <td>New Feature: Custom branding tools live</td>
+                    <td>Growth & Premium accounts</td>
+                    <td>Jul 12, 2026</td>
+                    <td>Product team</td>
+                    <td><span class="badge badge-offline">Archived</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A11: Admin Analytics -->
+        <div class="view-panel" id="view-admin-analytics">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Aggregate System Analytics</h1>
+              <div class="page-description">Overview of active sessions, regional traffic loads, and user acquisition profiles.</div>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Daily Active Users (DAU)</span></div>
+              <div class="stat-card-value">1,482</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Weekly Active Users (WAU)</span></div>
+              <div class="stat-card-value">6,204</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Platform Churn Ratio</span></div>
+              <div class="stat-card-value">1.4%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A12: Admin API Usage -->
+        <div class="view-panel" id="view-admin-api-usage">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Aggregate API Access Logs</h1>
+              <div class="page-description">Track network routing latency, response statuses, and platform error frequencies.</div>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-header"><span>Average Request Latency</span></div>
+              <div class="stat-card-value">184ms</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>HTTP 5xx Server Errors</span></div>
+              <div class="stat-card-value">0.02%</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-header"><span>HTTP 4xx Bad Requests</span></div>
+              <div class="stat-card-value">0.45%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A13: Admin System Health -->
+        <div class="view-panel" id="view-admin-system-health">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Platform Infrastructure Health</h1>
+              <div class="page-description">Monitor running microservices, queues, databases, webhooks, and SMTP routing nodes.</div>
+            </div>
+            <button class="btn btn-primary" onclick="toastNotification('Health checks performed')"><i data-lucide="shield-alert" style="width:16px;"></i>Force Recheck</button>
+          </div>
+
+          <div class="system-health-grid" id="system-health-container">
+            <!-- Loaded dynamically -->
+          </div>
+        </div>
+
+        <!-- View A14: Admin Users -->
+        <div class="view-panel" id="view-admin-users">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">System User Directory</h1>
+              <div class="page-description">Manage access credentials of team employees, agents, and administrators.</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Employee Logins</div></div>
+            <div class="card-body" style="padding:0;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Platform Role</th>
+                    <th>Last Active</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Devon Lane</td>
+                    <td>devon@futurexverse.com</td>
+                    <td>Super Admin</td>
+                    <td>Online Now</td>
+                    <td><span class="badge badge-active">Active</span></td>
+                  </tr>
+                  <tr>
+                    <td>Kristin Watson</td>
+                    <td>kristin@futurexverse.com</td>
+                    <td>Billing Manager</td>
+                    <td>2 hours ago</td>
+                    <td><span class="badge badge-active">Active</span></td>
+                  </tr>
+                  <tr>
+                    <td>Bessie Cooper</td>
+                    <td>bessie@futurexverse.com</td>
+                    <td>Support Specialist</td>
+                    <td>Yesterday</td>
+                    <td><span class="badge badge-active">Active</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A15: Admin Roles -->
+        <div class="view-panel" id="view-admin-roles">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Platform Role Assignments</h1>
+              <div class="page-description">Review granular security permission policies mapped to specific user categories.</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title">Platform Role Access Groups</div></div>
+            <div class="card-body" style="padding:0;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Access Role</th>
+                    <th>Mapped Employees</th>
+                    <th>Write Permissions Scope</th>
+                    <th>Read Scope restrictions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Super Admin</td>
+                    <td>2 users</td>
+                    <td>Full access (Global)</td>
+                    <td>None</td>
+                  </tr>
+                  <tr>
+                    <td>Billing Manager</td>
+                    <td>1 user</td>
+                    <td>Stripe & Invoices Settings</td>
+                    <td>Database, Keys, Logs restricted</td>
+                  </tr>
+                  <tr>
+                    <td>Support Specialist</td>
+                    <td>4 users</td>
+                    <td>Support Tickets, Clients edit</td>
+                    <td>Secret keys, Platform finance restricted</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- View A16: Admin Audit Logs -->
+        <div class="view-panel" id="view-admin-audit-logs">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">System Audit Trails</h1>
+              <div class="page-description">Review historical records of configuration updates, admin logins, API calls, and deletions.</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px;">
+            <div class="card-body" style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+              <div style="position:relative; width:100%; max-width:320px;">
+                <i data-lucide="search" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-muted); width:16px;"></i>
+                <input type="text" placeholder="Filter audit logs..." class="input-field" style="padding-left:36px; padding-top:6px; padding-bottom:6px;" onkeyup="filterAuditLogs(this.value)">
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Actor Email</th>
+                  <th>Action Triggered</th>
+                  <th>Network IP Address</th>
+                  <th>Resource Scope</th>
+                  <th>Timestamp</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="admin-audit-table-rows">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- View A17: Admin Settings -->
+        <div class="view-panel" id="view-admin-settings">
+          <div class="page-title-area">
+            <div>
+              <h1 class="page-title">Platform Settings</h1>
+              <div class="page-description">Global configuration options for the FutureXVerse platform.</div>
+            </div>
+            <button class="btn btn-primary" onclick="toastNotification('Platform settings saved')"><i data-lucide="save" style="width:16px;"></i>Save Settings</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Global Platform Properties</div></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Global Token Rate Limit (Per User Per Min)</label>
+                <input type="number" value="1000" class="input-field" style="width:180px;">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Platform SMTP Server Address</label>
+                <input type="text" value="smtp.futurexverse.net" class="input-field">
+              </div>
+              <div class="form-group">
+                <label class="switch-control">
+                  <input type="checkbox" checked class="switch-input purple">
+                  <span class="switch-slider"></span>
+                  <span>Enable new customer self-service registration trials</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL POPUPS                                   -->
+  <!-- ============================================== -->
+
+  <!-- Modal A: Train AI Brain -->
+  <div class="modal-overlay" id="modal-train-ai">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-weight:600; font-size:1.05rem;">Train AI Brain</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-train-ai')"><i data-lucide="x" style="width:18px;"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.8125rem; color:var(--text-secondary); margin-bottom:16px;">Instruct the AI assistant to crawl your uploaded database and update its logic patterns.</p>
+        <div class="form-group">
+          <label class="form-label">Scope Allocation</label>
+          <select id="modal-train-scope" class="input-field select-field">
+            <option value="all">Full Knowledge Base (Complete Rebuild)</option>
+            <option value="recent">Recent Documents Only (Incremental Updates)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-train-ai')">Cancel</button>
+        <button class="btn btn-brand-blue" onclick="triggerTrainAISave()">Initialize Training</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal B: Upload KB Source Documents -->
+  <div class="modal-overlay" id="modal-upload-kb">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-weight:600; font-size:1.05rem;">Upload Knowledge Sources</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-upload-kb')"><i data-lucide="x" style="width:18px;"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Source Format</label>
+          <select id="kb-upload-format" class="input-field select-field" onchange="toggleKbUploadFields(this.value)">
+            <option value="file">File Upload (PDF, DOCX, TXT)</option>
+            <option value="url">Website Crawler URL</option>
+            <option value="faq">Manual Q&A FAQ Pair</option>
+          </select>
+        </div>
+        
+        <!-- Files input group -->
+        <div id="kb-group-file" class="kb-upload-input-group">
+          <div style="border:1px dashed var(--border-color); border-radius:var(--radius-md); padding:24px; text-align:center; background-color:var(--bg-hover); cursor:pointer;" onclick="document.getElementById('kb-file-ref').click()">
+            <i data-lucide="upload-cloud" style="width:32px; height:32px; color:var(--text-muted); margin-bottom:8px;"></i>
+            <div style="font-size:0.8125rem; font-weight:600; color:var(--text-main);">Click to browse files</div>
+            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:2px;">PDF, DOCX, TXT up to 10MB</div>
+            <input type="file" id="kb-file-ref" style="display:none;" onchange="handleKbFileSelect(this)">
+          </div>
+          <div id="kb-selected-file-name" style="font-size:0.75rem; color:var(--primary-blue); font-weight:600; margin-top:8px; display:none;"></div>
+        </div>
+
+        <!-- URL input group -->
+        <div id="kb-group-url" class="kb-upload-input-group" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Website Crawler URL</label>
+            <input type="url" id="kb-input-url" placeholder="https://acmecorp.com/docs" class="input-field">
+          </div>
+        </div>
+
+        <!-- FAQ Q&A inputs -->
+        <div id="kb-group-faq" class="kb-upload-input-group" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Question</label>
+            <input type="text" id="kb-input-faq-q" placeholder="e.g. What is your refund policy?" class="input-field">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Answer Context</label>
+            <textarea id="kb-input-faq-a" placeholder="We offer full refunds within 14 days of purchase..." class="input-field" style="height:70px;"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-upload-kb')">Cancel</button>
+        <button class="btn btn-brand-blue" onclick="triggerKbUploadSave()">Add Source Document</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal C: Test AI Bot -->
+  <div class="modal-overlay" id="modal-test-ai">
+    <div class="modal-box" style="max-width:380px;">
+      <div class="modal-header">
+        <h3 style="font-weight:600; font-size:1.05rem; display:flex; align-items:center; gap:8px;">
+          <i data-lucide="bot" style="color:var(--primary-blue); width:18px;"></i> Test Assistant
+        </h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-test-ai')"><i data-lucide="x" style="width:18px;"></i></button>
+      </div>
+      <!-- Widget preview simulator in modal -->
+      <div class="mock-widget-container" style="border:none; border-radius:0; box-shadow:none; height:400px; width:100%;">
+        <div class="mock-widget-body" id="modal-test-chat-history">
+          <div class="mock-widget-bubble incoming">
+            Hi! This is the sandbox test environment. Feel free to type questions to inspect my responses and parameters.
+          </div>
+        </div>
+        <div class="mock-widget-input-bar" style="border-bottom:1px solid var(--border-color);">
+          <input type="text" id="modal-test-chat-input" class="mock-widget-input" placeholder="Type query to test..." onkeydown="handleTestChatInputKey(event)">
+          <div class="mock-widget-send-btn" onclick="sendTestChatSandbox()" style="color:var(--primary-blue);"><i data-lucide="send" style="width:16px;"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal D: Create Workflow -->
+  <div class="modal-overlay" id="modal-create-automation">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-weight:600; font-size:1.05rem;">Create Custom Automation Workflow</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-create-automation')"><i data-lucide="x" style="width:18px;"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Workflow Name</label>
+          <input type="text" id="modal-workflow-name" placeholder="e.g. Sync Leads to Slack Channel" class="input-field">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Select Trigger Event</label>
+          <select id="modal-workflow-trigger" class="input-field select-field">
+            <option value="new_lead">AI Captures New Contact Lead</option>
+            <option value="appointment_booked">AI Books Meeting Appointment</option>
+            <option value="escalation">Thread Escalated to Live Agent</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Destination Action App</label>
+          <select id="modal-workflow-action" class="input-field select-field">
+            <option value="slack">Slack (Broadcast notification to channel)</option>
+            <option value="zapier">Zapier Webhook (Relay data payload)</option>
+            <option value="hubspot">HubSpot CRM (Create/Update contact record)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-create-automation')">Cancel</button>
+        <button class="btn btn-brand-blue" onclick="triggerWorkflowCreate()">Create Workflow</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal E: Invite Team Workspace Member -->
+  <div class="modal-overlay" id="modal-invite-team">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-weight:600; font-size:1.05rem;">Invite Workspace Member</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-invite-team')"><i data-lucide="x" style="width:18px;"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="modal-team-name" placeholder="e.g. Jane Smith" class="input-field">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="modal-team-email" placeholder="jane@company.com" class="input-field">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Permission Access Scope</label>
+          <select id="modal-team-role" class="input-field select-field">
+            <option value="Admin">Admin (Full Edit Access)</option>
+            <option value="Agent" selected>Agent (Read & Chat Intervene)</option>
+            <option value="Viewer">Viewer (Read Only Access)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-invite-team')">Cancel</button>
+        <button class="btn btn-brand-blue" onclick="triggerTeamInvite()">Invite User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal F: Add CRM Lead manually -->
+  <div class="modal-overlay" id="modal-add-lead">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-weight:600; font-size:1.05rem;">Add New Contact Lead</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-add-lead')"><i data-lucide="x" style="width:18px;"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Lead Name</label>
+          <input type="text" id="modal-lead-name" placeholder="e.g. Robert Johnson" class="input-field">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="modal-lead-email" placeholder="robert@example.com" class="input-field">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" id="modal-lead-phone" placeholder="+1 (555) 019-2834" class="input-field">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Budget Allocation ($ USD)</label>
+          <input type="number" id="modal-lead-budget" placeholder="5000" class="input-field">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Acquisition Channel Source</label>
+          <select id="modal-lead-source" class="input-field select-field">
+            <option value="Website Widget" selected>Website Widget Chat</option>
+            <option value="Manual Entry">Manual Entry</option>
+            <option value="Zapier Synced">Zapier Integration</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Qualification Status</label>
+          <select id="modal-lead-status" class="input-field select-field">
+            <option value="New" selected>New</option>
+            <option value="Qualified">Qualified</option>
+            <option value="Hot">Hot</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-add-lead')">Cancel</button>
+        <button class="btn btn-brand-blue" onclick="triggerLeadCreate()">Save Lead Contact</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal G: System Notifications List -->
+  <div class="modal-overlay" id="modal-notifications">
+    <div class="modal-box" style="max-width:360px;">
+      <div class="modal-header">
+        <h3 style="font-weight:600; font-size:1.05rem;">Inbox System Alerts</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-notifications')"><i data-lucide="x" style="width:18px;"></i></button>
+      </div>
+      <div class="modal-body" style="padding:0; max-height:300px; overflow-y:auto;" id="notifications-modal-list">
+        <!-- Filled dynamically -->
+      </div>
+      <div class="modal-footer" style="padding:8px 16px;">
+        <button class="btn btn-secondary btn-sm" onclick="clearAllNotifications()" style="width:100%;">Clear All Notifications</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal H: Platform Broadcaster Alert Builder (Admin Only) -->
+  <div class="modal-overlay" id="modal-add-announcement">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 style="font-weight:600; font-size:1.05rem;">Create Platform Announcement Broadcast</h3>
+        <button class="modal-close-btn" onclick="closeModal('modal-add-announcement')"><i data-lucide="x" style="width:18px;"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Broadcast Header Title</label>
+          <input type="text" id="modal-ann-title" placeholder="System upgrade notices..." class="input-field">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Select User Scope Target</label>
+          <select id="modal-ann-scope" class="input-field select-field">
+            <option value="All">All Tenants</option>
+            <option value="Growth">Growth & Scale Plans Only</option>
+            <option value="Enterprise">Enterprise Workspace Accounts Only</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Announcement Content Markdown</label>
+          <textarea id="modal-ann-content" placeholder="Type announcement details here..." class="input-field" style="height:80px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-add-announcement')">Cancel</button>
+        <button class="btn btn-brand-blue" onclick="triggerAnnouncementPublish()">Publish Announcement</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Main Business Logic scripts -->
+  <script src="app.js"></script>
+</body>
+</html>

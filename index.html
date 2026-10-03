@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FutureXVerse — Enterprise AI Automation Platform</title>
+  <meta name="description"
+    content="FutureXVerse builds intelligent AI agents that automate customer conversations, qualify leads, streamline operations, and help businesses scale faster.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="landing.css">
+</head>
+
+<body>
+
+  <!-- Toast Notification -->
+  <div class="landing-toast-wrap" id="landing-toast-container"></div>
+
+  <!-- ══════════════════════════════════════
+       BACKGROUND: Video + Radial Glow
+  ══════════════════════════════════════ -->
+  <div class="hero-bg-container" id="hero-bg-container">
+    <video id="hero-video" class="hero-video" autoplay muted playsinline loop></video>
+    <div class="hero-bg-noise"></div>
+  </div>
+
+  <!-- Centered Radial Glow -->
+  <div class="background-glow" id="bg-glow-layer"></div>
+
+  <!-- ══════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════ -->
+  <header class="navbar-wrapper" id="site-navbar">
+    <nav class="navbar">
+      <!-- Logo -->
+      <div class="nav-logo" onclick="switchLandingView('hero', null)">
+        <img src="logo.png" alt="FutureXVerse" class="nav-logo-img">
+        <span class="nav-logo-text">FutureXVerse</span>
+      </div>
+
+      <!-- Center Links -->
+      <ul class="nav-links" id="navbar-menu-links">
+        <li class="nav-link" onclick="switchLandingView('features', this)">Features</li>
+        <li class="nav-link" onclick="switchLandingView('howitworks', this)">How It Works</li>
+        <li class="nav-link" onclick="switchLandingView('pricing', this)">Pricing</li>
+        <li class="nav-link" onclick="switchLandingView('about', this)">About Us</li>
+      </ul>
+
+      <!-- CTA -->
+      <div class="nav-actions">
+        <button class="btn-nav-outline" onclick="switchLandingView('auth', null, 'signup')">Book Demo</button>
+        <button class="btn-nav-primary" onclick="switchLandingView('auth', null, 'signin')">Get Started</button>
+      </div>
+    </nav>
+    <div class="navbar-divider"></div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       PAGE VIEW CONTAINER (SPA)
+  ══════════════════════════════════════ -->
+  <div class="page-view-container">
+
+    <!-- ─── VIEW 1: HERO ─── -->
+    <div class="landing-view-panel active" id="view-landing-hero">
+
+      <!-- Upper two-column bar: badge + metric -->
+      <div class="hero-upper-row">
+        <div class="hero-badge glass-component">
+          <span class="hero-badge-dot"></span>
+          <span>Enterprise AI Automation Platform</span>
+        </div>
+        <div class="hero-metric glass-component">
+          <span class="hero-metric-value">250+</span>
+          <span class="hero-metric-label">Businesses Automating Daily</span>
+        </div>
+      </div>
+
+      <!-- Centered headline block -->
+      <div class="hero-headline-block">
+        <h1 class="headline">
+          <span class="headline-line headline-white anim-fade-up" style="--delay:0ms">Automate</span>
+          <span class="headline-line headline-gradient anim-fade-up" style="--delay:80ms">Business</span>
+          <span class="headline-line headline-white anim-fade-up" style="--delay:160ms">Intelligently.</span>
+        </h1>
+
+        <p class="subtitle anim-fade-up" style="--delay:240ms">
+          FutureXVerse builds intelligent AI agents that automate customer conversations, qualify leads, streamline
+          operations, and help businesses scale faster without increasing headcount.
+        </p>
+
+        <div class="hero-actions anim-fade-up" style="--delay:320ms">
+          <button class="btn-hero-primary" onclick="switchLandingView('auth', null, 'signup')">Start Automating</button>
+          <button class="btn-hero-secondary" onclick="switchLandingView('auth', null, 'signup')">Book Demo</button>
+        </div>
+      </div>
+
+      <!-- Floating Dashboard Mockup -->
+      <div class="hero-dashboard-wrap anim-fade-up" style="--delay:400ms">
+        <div class="dashboard-window">
+          <!-- Window chrome -->
+          <div class="window-chrome">
+            <div class="window-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-amber"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="window-title">FutureXVerse Platform</div>
+            <div class="window-actions">
+              <span class="win-badge">
+                <span class="pulse-dot"></span>Live
+              </span>
+            </div>
+          </div>
+
+          <!-- Dashboard body -->
+          <div class="dashboard-body">
+            <!-- Sidebar -->
+            <aside class="dash-sidebar">
+              <div class="dash-logo-row">
+                <img src="logo.png" alt="logo" style="height:16px; width:auto;">
+                <span>FutureX</span>
+              </div>
+              <nav class="dash-nav">
+                <div class="dash-nav-item active">
+                  <i data-lucide="layout-dashboard" style="width:11px;height:11px;"></i>Dashboard
+                </div>
+                <div class="dash-nav-item">
+                  <i data-lucide="bot" style="width:11px;height:11px;"></i>AI Agents
+                </div>
+                <div class="dash-nav-item">
+                  <i data-lucide="message-square" style="width:11px;height:11px;"></i>Conversations
+                </div>
+                <div class="dash-nav-item">
+                  <i data-lucide="workflow" style="width:11px;height:11px;"></i>Workflows
+                </div>
+                <div class="dash-nav-item">
+                  <i data-lucide="users" style="width:11px;height:11px;"></i>Lead Capture
+                </div>
+                <div class="dash-nav-item">
+                  <i data-lucide="database" style="width:11px;height:11px;"></i>CRM Sync
+                </div>
+                <div class="dash-nav-item">
+                  <i data-lucide="bar-chart-2" style="width:11px;height:11px;"></i>Analytics
+                </div>
+                <div class="dash-nav-item">
+                  <i data-lucide="zap" style="width:11px;height:11px;"></i>Task Auto
+                </div>
+              </nav>
+            </aside>
+
+            <!-- Main area -->
+            <div class="dash-main">
+              <!-- Stats row -->
+              <div class="dash-stats-row">
+                <div class="dash-stat-card">
+                  <div class="dash-stat-label">AI ASSISTANT</div>
+                  <div class="dash-stat-val">
+                    <span>Active</span>
+                    <span class="live-pill"><span class="pulse-dot"></span>Live</span>
+                  </div>
+                </div>
+                <div class="dash-stat-card">
+                  <div class="dash-stat-label">LEADS TODAY</div>
+                  <div class="dash-stat-val">+34 <span class="stat-up">↑12%</span></div>
+                </div>
+                <div class="dash-stat-card">
+                  <div class="dash-stat-label">WORKFLOWS</div>
+                  <div class="dash-stat-val">8 <span class="stat-label-dim">Running</span></div>
+                </div>
+              </div>
+
+              <!-- Chart -->
+              <div class="dash-chart-card">
+                <div class="dash-chart-header">
+                  <span>CONVERSATION VOLUME</span>
+                  <span class="chart-period">Last 7 days</span>
+                </div>
+                <div class="dash-chart">
+                  <svg viewBox="0 0 300 72" preserveAspectRatio="none" style="width:100%;height:100%;">
+                    <defs>
+                      <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="rgba(14,165,255,.18)" />
+                        <stop offset="100%" stop-color="rgba(14,165,255,0)" />
+                      </linearGradient>
+                    </defs>
+                    <line x1="0" y1="24" x2="300" y2="24" stroke="rgba(255,255,255,.04)" stroke-width="1" />
+                    <line x1="0" y1="48" x2="300" y2="48" stroke="rgba(255,255,255,.04)" stroke-width="1" />
+                    <path d="M0 58 Q40 28 80 44 T160 18 T240 8 L300 12 L300 72 L0 72Z" fill="url(#cg)" />
+                    <path d="M0 58 Q40 28 80 44 T160 18 T240 8 L300 12" fill="none" stroke="#0EA5FF"
+                      stroke-width="1.5" />
+                    <circle cx="300" cy="12" r="3" fill="#FFF" />
+                    <circle cx="300" cy="12" r="6" fill="#0EA5FF" opacity=".35" />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Live feed -->
+              <div class="dash-feed-card">
+                <div class="dash-feed-header">LIVE AUTOMATIONS</div>
+                <div class="dash-feed-item">
+                  <span class="feed-check">✓</span>
+                  <span>Synced lead Sarah → HubSpot</span>
+                  <span class="feed-time">1m ago</span>
+                </div>
+                <div class="dash-feed-item">
+                  <span class="feed-check">✓</span>
+                  <span>Booked demo — Acme Corp</span>
+                  <span class="feed-time">4m ago</span>
+                </div>
+                <div class="dash-feed-item">
+                  <span class="feed-check">✓</span>
+                  <span>Workflow triggered — Finance</span>
+                  <span class="feed-time">9m ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Marquee — sits directly below the dashboard -->
+      <div class="trust-section">
+        <div class="trust-text">Trusted by modern businesses worldwide</div>
+        <div class="marquee-container">
+          <div class="marquee-track">
+            <div class="marquee-capsule"><i data-lucide="building" style="width:13px;height:13px;"></i>Real Estate</div>
+            <div class="marquee-capsule"><i data-lucide="scale" style="width:13px;height:13px;"></i>Law Firms</div>
+            <div class="marquee-capsule"><i data-lucide="heart-pulse" style="width:13px;height:13px;"></i>Healthcare
+            </div>
+            <div class="marquee-capsule"><i data-lucide="landmark" style="width:13px;height:13px;"></i>Finance</div>
+            <div class="marquee-capsule"><i data-lucide="graduation-cap" style="width:13px;height:13px;"></i>Education
+            </div>
+            <div class="marquee-capsule"><i data-lucide="hotel" style="width:13px;height:13px;"></i>Hospitality</div>
+            <div class="marquee-capsule"><i data-lucide="shopping-bag" style="width:13px;height:13px;"></i>E-commerce
+            </div>
+            <div class="marquee-capsule"><i data-lucide="briefcase" style="width:13px;height:13px;"></i>Consulting</div>
+            <!-- duplicate for seamless loop -->
+            <div class="marquee-capsule"><i data-lucide="building" style="width:13px;height:13px;"></i>Real Estate</div>
+            <div class="marquee-capsule"><i data-lucide="scale" style="width:13px;height:13px;"></i>Law Firms</div>
+            <div class="marquee-capsule"><i data-lucide="heart-pulse" style="width:13px;height:13px;"></i>Healthcare
+            </div>
+            <div class="marquee-capsule"><i data-lucide="landmark" style="width:13px;height:13px;"></i>Finance</div>
+            <div class="marquee-capsule"><i data-lucide="graduation-cap" style="width:13px;height:13px;"></i>Education
+            </div>
+            <div class="marquee-capsule"><i data-lucide="hotel" style="width:13px;height:13px;"></i>Hospitality</div>
+            <div class="marquee-capsule"><i data-lucide="shopping-bag" style="width:13px;height:13px;"></i>E-commerce
+            </div>
+            <div class="marquee-capsule"><i data-lucide="briefcase" style="width:13px;height:13px;"></i>Consulting</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /hero -->
+
+    <!-- ─── VIEW 2: FEATURES ─── -->
+    <div class="landing-view-panel" id="view-landing-features">
+      <div class="features-container">
+        <div class="section-header-centered">
+          <div class="section-tag">Core Features</div>
+          <h2 class="section-title">Engineered for Automated Scale</h2>
+          <p class="section-desc">Deploy robust conversational models and trigger-based webhook pipelines built to scale
+            customer support workflows.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card glass-component" onclick="switchLandingView('pricing', null)">
+            <div class="feature-icon-wrapper"><i data-lucide="bot" style="width:20px;"></i></div>
+            <h3 class="feature-card-title">Cognitive AI Agents</h3>
+            <p class="feature-card-desc">Advanced systems configured with custom prompts, factual thresholds, and
+              knowledge bases to act as primary web support nodes.</p>
+          </div>
+          <div class="feature-card glass-component" onclick="switchLandingView('pricing', null)">
+            <div class="feature-icon-wrapper"><i data-lucide="git-fork" style="width:20px;"></i></div>
+            <h3 class="feature-card-title">Workflow Triggers</h3>
+            <p class="feature-card-desc">Hook capture events directly to Slack, HubSpot, Zapier, or Salesforce. Sync
+              leads instantly into your existing sales pipeline.</p>
+          </div>
+          <div class="feature-card glass-component" onclick="switchLandingView('pricing', null)">
+            <div class="feature-icon-wrapper"><i data-lucide="message-square" style="width:20px;"></i></div>
+            <h3 class="feature-card-title">Conversational Inbox</h3>
+            <p class="feature-card-desc">A unified dashboard inbox enabling live agents to monitor active AI threads and
+              intervene when complex items arise.</p>
+          </div>
+          <div class="feature-card glass-component" onclick="switchLandingView('pricing', null)">
+            <div class="feature-icon-wrapper"><i data-lucide="shield-check" style="width:20px;"></i></div>
+            <h3 class="feature-card-title">Enterprise Security</h3>
+            <p class="feature-card-desc">CORS domain origin restrictions, end-to-end API key encryptions, and full audit
+              logs tracking database logins.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── VIEW 3: SOLUTIONS ─── -->
+    <div class="landing-view-panel" id="view-landing-solutions">
+      <div class="features-container">
+        <div class="section-header-centered">
+          <div class="section-tag">Solutions</div>
+          <h2 class="section-title">Tailored for Every Industry</h2>
+          <p class="section-desc">See how top businesses use FutureXVerse AI to drive conversion rates and scale support
+            queues.</p>
+        </div>
+        <div class="solutions-grid">
+          <div class="feature-card glass-component solution-card">
+            <span class="solution-badge">Real Estate</span>
+            <h3 class="feature-card-title" style="font-size:1.2rem;">Automate Property Demos</h3>
+            <p class="feature-card-desc">Allow website assistants to answer pricing questions, check local property
+              listings, and schedule booking dates.</p>
+            <ul class="solution-bullets">
+              <li class="solution-bullet"><i data-lucide="check" style="width:14px;"></i> Schedule tours on Google
+                Calendar</li>
+              <li class="solution-bullet"><i data-lucide="check" style="width:14px;"></i> Capture buyer budget ranges
+              </li>
+            </ul>
+          </div>
+          <div class="feature-card glass-component solution-card">
+            <span class="solution-badge">Finance &amp; Fintech</span>
+            <h3 class="feature-card-title" style="font-size:1.2rem;">Triage Support Inquiries</h3>
+            <p class="feature-card-desc">Help customers resolve FAQs instantly, check transaction logic, or escalate
+              technical claims to live advisors.</p>
+            <ul class="solution-bullets">
+              <li class="solution-bullet"><i data-lucide="check" style="width:14px;"></i> Lower queue latency by 90%
+              </li>
+              <li class="solution-bullet"><i data-lucide="check" style="width:14px;"></i> Strict sandbox security
+                constraints</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── VIEW 4: PRICING ─── -->
+    <div class="landing-view-panel" id="view-landing-pricing">
+      <div class="features-container">
+        <div class="section-header-centered" style="margin-bottom:28px;">
+          <div class="section-tag">Service Packages</div>
+          <h2 class="section-title">Plans that Scale with You</h2>
+          <p class="section-desc">Choose the perfect AI automation package for your business needs.</p>
+        </div>
+        <div class="pricing-cards-grid" style="grid-template-columns: 1fr 1fr; max-width: 800px; margin: 0 auto;">
+          <div class="feature-card glass-component pricing-card">
+            <div>
+              <div style="font-weight:600;font-size:.95rem;color:#FFF;">AI Starter</div>
+              <div class="price-box"><span class="price-sub">Starting from</span> <span class="price-amt">$500</span>
+              </div>
+              <p class="pricing-card-desc">This is the simplest package. For businesses that only need a chatbot.</p>
+              <ul class="pricing-features-list">
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> AI chatbot</li>
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> Website integration</li>
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> Train the AI using your
+                  business info</li>
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> Basic lead capture</li>
+              </ul>
+            </div>
+            <button class="btn-pricing btn-pricing-secondary" onclick="switchLandingView('auth', null, 'signup')">Get
+              Started</button>
+          </div>
+          <div class="feature-card glass-component pricing-card popular">
+            <span class="popular-badge-ribbon">MOST POPULAR</span>
+            <div>
+              <div style="font-weight:600;font-size:.95rem;color:#FFF;">AI Growth</div>
+              <div class="price-box"><span class="price-sub">Starting from</span> <span class="price-amt">$1,500</span>
+              </div>
+              <p class="pricing-card-desc">We don't just build a chatbot, we automate the business with advanced
+                workflows.</p>
+              <ul class="pricing-features-list">
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> Customer chats with AI</li>
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> AI collects & qualifies
+                  customer details</li>
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> Automatically saves the lead
+                </li>
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> Automatically sends email</li>
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> Automatically books
+                  appointments</li>
+                <li class="pricing-feat"><i data-lucide="check" style="width:14px;"></i> Automatically notifies staff
+                </li>
+              </ul>
+            </div>
+            <button class="btn-pricing btn-pricing-primary" onclick="switchLandingView('auth', null, 'signup')">Deploy
+              Today</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── VIEW 5: ABOUT ─── -->
+    <div class="landing-view-panel" id="view-landing-about">
+      <div class="features-container">
+        <div class="section-header-centered">
+          <div class="section-tag">About Us</div>
+          <h2 class="section-title">Our Mission</h2>
+          <p class="section-desc" style="max-width:800px;margin:0 auto 40px auto;">At FutureXVerse, we help businesses
+            automate customer interactions and streamline operations through practical AI solutions. Our mission is to
+            make AI accessible, useful, and easy to integrate into everyday business workflows.</p>
+        </div>
+
+        <div
+          style="display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%;max-width:1000px;margin:0 auto 40px auto;">
+          <div class="feature-card glass-component" style="cursor:default;">
+            <h3 class="feature-card-title" style="display:flex;align-items:center;gap:8px;font-size:1.2rem;">
+              <i data-lucide="target" style="color:var(--brand-light-blue);width:20px;"></i> What We Do
+            </h3>
+            <p class="feature-card-desc" style="font-size:1rem;line-height:1.6;">We build AI assistants that answer
+              customer questions, qualify leads, automate repetitive tasks, and integrate with the tools businesses
+              already use.</p>
+          </div>
+          <div class="feature-card glass-component" style="cursor:default;">
+            <h3 class="feature-card-title" style="display:flex;align-items:center;gap:8px;font-size:1.2rem;">
+              <i data-lucide="eye" style="color:var(--brand-purple);width:20px;"></i> Our Vision
+            </h3>
+            <p class="feature-card-desc" style="font-size:1rem;line-height:1.6;">To become a trusted platform that helps
+              businesses of every size use AI to improve customer experience and increase productivity.</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;width:100%;max-width:1000px;margin:0 auto;">
+          <div class="feature-card glass-component" style="cursor:default;">
+            <h3 class="feature-card-title" style="display:flex;align-items:center;gap:8px;font-size:1.2rem;">
+              <i data-lucide="heart" style="color:#FF4A6B;width:20px;"></i> Our Values
+            </h3>
+            <ul class="solution-bullets" style="margin-top:12px;">
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i>
+                Innovation</li>
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i>
+                Simplicity</li>
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i>
+                Reliability</li>
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i>
+                Customer Success</li>
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i>
+                Security</li>
+            </ul>
+          </div>
+
+          <div class="feature-card glass-component" style="cursor:default;">
+            <h3 class="feature-card-title" style="display:flex;align-items:center;gap:8px;font-size:1.2rem;">
+              <i data-lucide="thumbs-up" style="color:#0EA5FF;width:20px;"></i> Why Choose FutureXVerse
+            </h3>
+            <ul class="solution-bullets" style="margin-top:12px;">
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i> Custom
+                AI solutions</li>
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i> Fast
+                deployment</li>
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i> Modern
+                workflow automation</li>
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i>
+                Scalable platform</li>
+              <li class="solution-bullet" style="font-size:1rem;"><i data-lucide="check" style="width:16px;"></i>
+                Ongoing support</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top:40px;text-align:center;">
+          <h3 class="section-title" style="font-size:1.5rem;margin-bottom:16px;">Contact Us</h3>
+          <p class="section-desc" style="margin-bottom:8px;"><i data-lucide="mail"
+              style="width:16px;display:inline-block;vertical-align:-3px;margin-right:4px;"></i>
+            futurexverseai@gmail.com</p>
+          <p class="section-desc"><svg
+              style="width:16px;height:16px;display:inline-block;vertical-align:-3px;margin-right:4px;"
+              viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg> x[@FutureXverse_]</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── VIEW: HOW IT WORKS ─── -->
+    <div class="landing-view-panel" id="view-landing-howitworks">
+      <div class="features-container">
+        <div class="section-header-centered">
+          <div class="section-tag">Process</div>
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-desc">Keep it simple. From consultation to launch, we handle the technical lifting.</p>
+        </div>
+        <div style="max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
+
+          <div class="feature-card glass-component" style="text-align:center;padding:24px;">
+            <div
+              style="color:var(--brand-light-blue);font-weight:600;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">
+              Step 1</div>
+            <h3 class="feature-card-title" style="margin:0;font-size:1.2rem;">Book a free consultation.</h3>
+          </div>
+
+          <div style="text-align:center;color:var(--brand-light-blue);"><i data-lucide="arrow-down"
+              style="width:24px;"></i></div>
+
+          <div class="feature-card glass-component" style="text-align:center;padding:24px;">
+            <div
+              style="color:var(--brand-light-blue);font-weight:600;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">
+              Step 2</div>
+            <h3 class="feature-card-title" style="margin:0;font-size:1.2rem;">We learn about your business.</h3>
+          </div>
+
+          <div style="text-align:center;color:var(--brand-light-blue);"><i data-lucide="arrow-down"
+              style="width:24px;"></i></div>
+
+          <div class="feature-card glass-component" style="text-align:center;padding:24px;">
+            <div
+              style="color:var(--brand-light-blue);font-weight:600;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">
+              Step 3</div>
+            <h3 class="feature-card-title" style="margin:0;font-size:1.2rem;">We build your AI assistant.</h3>
+          </div>
+
+          <div style="text-align:center;color:var(--brand-light-blue);"><i data-lucide="arrow-down"
+              style="width:24px;"></i></div>
+
+          <div class="feature-card glass-component" style="text-align:center;padding:24px;">
+            <div
+              style="color:var(--brand-light-blue);font-weight:600;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">
+              Step 4</div>
+            <h3 class="feature-card-title" style="margin:0;font-size:1.2rem;">We connect it to your website and automate
+              your workflows.</h3>
+          </div>
+
+          <div style="text-align:center;color:var(--brand-light-blue);"><i data-lucide="arrow-down"
+              style="width:24px;"></i></div>
+
+          <div class="feature-card glass-component" style="text-align:center;padding:24px;">
+            <div
+              style="color:var(--brand-light-blue);font-weight:600;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;">
+              Step 5</div>
+            <h3 class="feature-card-title" style="margin:0;font-size:1.2rem;">We launch, monitor, and support your AI
+              solution.</h3>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── VIEW 6: AUTH ─── -->
+    <div class="landing-view-panel" id="view-landing-auth">
+      <div class="auth-panel-wrapper">
+        <div class="clerk-auth-card glass-component">
+          <div class="auth-header">
+            <img src="logo.png" alt="FutureXVerse"
+              style="height:36px;width:auto;margin:0 auto 12px auto;display:block;">
+            <h3 class="auth-title" id="auth-box-title">Sign in to FutureXVerse</h3>
+            <p class="auth-subtitle" id="auth-box-subtitle">Welcome back! Please choose a login option.</p>
+          </div>
+          <div class="auth-social-grid">
+            <button class="btn-social-auth" onclick="simulateSocialAuth('Google')">
+              <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12.24 10.285V13.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.859-3.578-7.859-8s3.53-8 7.859-8c2.46 0 4.105 1.025 5.047 1.926l2.427-2.334C17.955 2.192 15.34 1 12.24 1 5.92 1 1 5.92 1 12.24s4.92 11.24 11.24 11.24c6.6 0 11-4.64 11-11.24 0-.756-.08-1.333-.175-1.955H12.24z" />
+              </svg>
+              Google
+            </button>
+            <button class="btn-social-auth" onclick="simulateSocialAuth('GitHub')">
+              <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+              </svg>
+              GitHub
+            </button>
+          </div>
+          <div class="auth-divider">or use email</div>
+          <form onsubmit="handleAuthSubmit(event)" id="clerk-form">
+            <div class="auth-input-group" id="auth-group-name" style="display:none;">
+              <label class="auth-label">Full Name</label>
+              <input type="text" placeholder="e.g. Jane Smith" class="auth-input" id="auth-input-name">
+            </div>
+            <div class="auth-input-group" id="auth-group-company" style="display:none;">
+              <label class="auth-label">Company Name</label>
+              <input type="text" placeholder="e.g. Acme Corp" class="auth-input" id="auth-input-company">
+            </div>
+            <div class="auth-input-group">
+              <label class="auth-label">Work Email address</label>
+              <input type="email" placeholder="you@company.com" class="auth-input" required id="auth-input-email">
+            </div>
+            <div class="auth-input-group">
+              <label class="auth-label">Password</label>
+              <input type="password" placeholder="••••••••" class="auth-input" required id="auth-input-pass">
+            </div>
+            <button type="submit" class="btn-auth-continue" id="btn-auth-submit-label">
+              <div class="spinner-loader" id="auth-btn-spinner"></div>
+              <span>Continue</span>
+            </button>
+          </form>
+          <div class="auth-footer-toggle">
+            <span id="auth-toggle-caption">Don't have an account?</span>
+            <span class="auth-footer-link" id="auth-toggle-link" onclick="toggleAuthFormMode()">Sign up</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-view-container -->
+
+
+
+  <!-- ══════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════ -->
+  <script>
+    /* ── Video Fade (rAF) ── */
+    (function () {
+      const VIDEO_SRC = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4';
+      const FADE_DURATION = 600; // ms
+      const GAP = 120;           // ms between loop iterations
+      const TARGET_OPACITY = 0.30;
+
+      const vid = document.getElementById('hero-video');
+      vid.src = VIDEO_SRC;
+
+      let rafId = null;
+      let phase = 'fadein'; // 'fadein' | 'playing' | 'fadeout' | 'gap'
+      let phaseStart = null;
+
+      function tick(ts) {
+        if (!phaseStart) phaseStart = ts;
+        const elapsed = ts - phaseStart;
+
+        if (phase === 'fadein') {
+          vid.style.opacity = Math.min(elapsed / FADE_DURATION, 1) * TARGET_OPACITY;
+          if (elapsed >= FADE_DURATION) {
+            vid.style.opacity = TARGET_OPACITY;
+            phase = 'playing';
+            phaseStart = ts;
+          }
+        } else if (phase === 'playing') {
+          // nothing, video plays normally
+        } else if (phase === 'fadeout') {
+          const progress = Math.min(elapsed / FADE_DURATION, 1);
+          vid.style.opacity = (1 - progress) * TARGET_OPACITY;
+          if (elapsed >= FADE_DURATION) {
+            vid.style.opacity = 0;
+            vid.pause();
+            vid.currentTime = 0;
+            phase = 'gap';
+            phaseStart = ts;
+          }
+        } else if (phase === 'gap') {
+          if (elapsed >= GAP) {
+            vid.play();
+            phase = 'fadein';
+            phaseStart = ts;
+          }
+        }
+
+        rafId = requestAnimationFrame(tick);
+      }
+
+      vid.addEventListener('loadedmetadata', () => {
+        vid.style.opacity = 0;
+        vid.play().catch(() => { });
+
+        // Trigger fadeout near end of each loop iteration
+        vid.addEventListener('timeupdate', () => {
+          if (phase === 'playing' && vid.duration && vid.currentTime >= vid.duration - FADE_DURATION / 1000) {
+            phase = 'fadeout';
+            phaseStart = null;
+          }
+        });
+
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(tick);
+      });
+    })();
+
+    /* ── SPA Routing ── */
+    let activeLandingView = 'hero';
+    let currentAuthMode = 'signin';
+    let currentPricingCycle = 'monthly';
+
+    function switchLandingView(viewId, element = null, subMode = '') {
+      document.querySelectorAll('.landing-view-panel').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById(`view-landing-${viewId}`);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('#navbar-menu-links .nav-link').forEach(l => l.classList.remove('active'));
+      if (element) element.classList.add('active');
+
+      activeLandingView = viewId;
+
+      const glow = document.getElementById('bg-glow-layer');
+      glow.classList.toggle('pricing-active', viewId === 'pricing');
+
+      if (viewId === 'auth' && subMode) alignAuthFormInputs(subMode);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      window.scrollTo(0, 0);
+    }
+
+    function toggleAuthFormMode() {
+      alignAuthFormInputs(currentAuthMode === 'signin' ? 'signup' : 'signin');
+    }
+
+    function alignAuthFormInputs(mode) {
+      currentAuthMode = mode;
+      document.getElementById('auth-box-title').innerText = mode === 'signup' ? 'Create your account' : 'Sign in to FutureXVerse';
+      document.getElementById('auth-box-subtitle').innerText = mode === 'signup' ? 'Start deploying autonomous AI agents today.' : 'Welcome back! Please choose a login option.';
+      document.getElementById('auth-group-name').style.display = mode === 'signup' ? 'block' : 'none';
+      document.getElementById('auth-group-company').style.display = mode === 'signup' ? 'block' : 'none';
+      document.getElementById('auth-input-name')[mode === 'signup' ? 'setAttribute' : 'removeAttribute']('required', 'true');
+      document.getElementById('auth-input-company')[mode === 'signup' ? 'setAttribute' : 'removeAttribute']('required', 'true');
+      document.getElementById('auth-toggle-caption').innerText = mode === 'signup' ? 'Already have an account?' : "Don't have an account?";
+      document.getElementById('auth-toggle-link').innerText = mode === 'signup' ? 'Sign in' : 'Sign up';
+    }
+
+    function simulateSocialAuth(provider) {
+      landingToast(`Connecting secure authentication via ${provider}...`);
+      setTimeout(() => {
+        landingToast('Welcome back! Authenticated successfully.');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+      }, 700);
+    }
+
+    function handleAuthSubmit(event) {
+      event.preventDefault();
+      const spinner = document.getElementById('auth-btn-spinner');
+      const label = document.querySelector('#btn-auth-submit-label span');
+      const email = document.getElementById('auth-input-email').value;
+      spinner.style.display = 'inline-block';
+      label.innerText = 'Authenticating...';
+      setTimeout(() => {
+        spinner.style.display = 'none';
+        label.innerText = 'Continue';
+        landingToast(`Successfully logged in as ${email}`);
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+      }, 1000);
+    }
+
+    function togglePricingDuration(cycle) {
+      currentPricingCycle = cycle;
+      document.getElementById('toggle-monthly-btn').classList.toggle('active', cycle === 'monthly');
+      document.getElementById('toggle-annual-btn').classList.toggle('active', cycle === 'annual');
+      document.getElementById('pricing-growth-val').innerText = cycle === 'annual' ? '$39' : '$49';
+    }
+
+    function landingToast(msg) {
+      const c = document.getElementById('landing-toast-container');
+      const t = document.createElement('div');
+      t.className = 'landing-toast';
+      t.innerHTML = `<span>${msg}</span>`;
+      c.appendChild(t);
+      setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transition = 'opacity .4s ease';
+        setTimeout(() => t.remove(), 400);
+      }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      // Navbar fade-in
+      setTimeout(() => {
+        document.getElementById('site-navbar').style.opacity = '1';
+        document.getElementById('site-navbar').style.transform = 'translateY(0)';
+      }, 50);
+    });
+  </script>
+
+</body>
+
+</html>
